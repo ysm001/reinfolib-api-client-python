@@ -67,12 +67,7 @@ class GeoAPIResponse(BaseModel, Generic[T]):
     features: list[GeoAPIResponseItem[T]]
 
 
-class FeatureAPIResponse(TypedDict):
-    type: str
-    name: list[str]
-
-
-class PropertyBaseModel(BaseModel):
+class ReinfoBaseModel(BaseModel):
     @field_validator("*", mode="before")
     @classmethod
     def empty_str_to_none(cls, v):
@@ -84,7 +79,7 @@ class PropertyBaseModel(BaseModel):
         populate_by_name = True
 
 
-class TransactionPrice(PropertyBaseModel):
+class TransactionPrice(ReinfoBaseModel):
     type_: str = Field(..., alias="Type", description="取引の種類")
     region: Optional[str] = Field(None, alias="Region", description="地区")
     municipality_code: Optional[str] = Field(
@@ -150,7 +145,7 @@ class TransactionPrice(PropertyBaseModel):
 
 
 # pylint: disable=C2401
-class AppraisalReport(PropertyBaseModel):
+class AppraisalReport(ReinfoBaseModel):
     価格時点: Optional[str] = None
     標準地番号_市区町村コード_県コード: Optional[str] = Field(
         None, alias="標準地番号 市区町村コード 県コード"
@@ -328,12 +323,12 @@ class AppraisalReport(PropertyBaseModel):
 # pylint: enable=C2401
 
 
-class Municipality(PropertyBaseModel):
+class Municipality(ReinfoBaseModel):
     id: str = Field(..., description="市区町村コード")
     name: str = Field(..., description="市区町村名")
 
 
-class TransactionPriceGeo(PropertyBaseModel):
+class TransactionPriceGeo(ReinfoBaseModel):
     point_in_time_name_ja: Optional[str] = Field(None, description="取引時点")
     price_information_category_name_ja: Optional[str] = Field(
         None, description="価格情報区分"
@@ -376,7 +371,7 @@ class TransactionPriceGeo(PropertyBaseModel):
     remark_renovation_name_ja: Optional[str] = Field(None, description="改装")
 
 
-class LandValuationGeo(PropertyBaseModel):
+class LandValuationGeo(ReinfoBaseModel):
     point_id: Optional[int] = Field(None, description="地点ID")
     target_year_name_ja: Optional[str] = Field(None, description="対象年")
     land_price_type: Optional[int] = Field(None, description="地価区分")
@@ -457,7 +452,7 @@ class LandValuationGeo(PropertyBaseModel):
     )
 
 
-class UrbanPlanningZoneGIS(PropertyBaseModel):
+class UrbanPlanningZoneGIS(ReinfoBaseModel):
     prefecture: Optional[str] = Field(None, description="都道府県名")
     city_code: Optional[str] = Field(None, description="市区町村コード")
     city_name: Optional[str] = Field(None, description="市区町村名")
@@ -473,7 +468,7 @@ class UrbanPlanningZoneGIS(PropertyBaseModel):
     )
 
 
-class UrbanPlanningUseDistrictGIS(PropertyBaseModel):
+class UrbanPlanningUseDistrictGIS(ReinfoBaseModel):
     youto_id: Optional[int] = Field(None, description="用途地域分類")
     prefecture: Optional[str] = Field(None, description="都道府県名")
     city_code: Optional[str] = Field(None, description="市区町村コード")
@@ -491,7 +486,7 @@ class UrbanPlanningUseDistrictGIS(PropertyBaseModel):
     )
 
 
-class UrbanPlanningLocationNormalizationGIS(PropertyBaseModel):
+class UrbanPlanningLocationNormalizationGIS(ReinfoBaseModel):
     prefecture: Optional[str] = Field(None, description="都道府県名")
     city_code: Optional[str] = Field(None, description="行政区域コード")
     city_name: Optional[str] = Field(None, description="市町村名")
@@ -508,7 +503,7 @@ class UrbanPlanningLocationNormalizationGIS(PropertyBaseModel):
     )
 
 
-class ElementarySchoolDistrictGIS(PropertyBaseModel):
+class ElementarySchoolDistrictGIS(ReinfoBaseModel):
     A27_001: Optional[str] = Field(None, description="行政区域コード")
     A27_002: Optional[str] = Field(None, description="設置主体")
     A27_003: Optional[str] = Field(None, description="学校コード")
@@ -516,7 +511,7 @@ class ElementarySchoolDistrictGIS(PropertyBaseModel):
     A27_005: Optional[str] = Field(None, description="所在地")
 
 
-class JuniorHighSchoolDistrictGISData(PropertyBaseModel):
+class JuniorHighSchoolDistrictGISData(ReinfoBaseModel):
     A32_001: Optional[str] = Field(None, description="行政区域コード")
     A32_002: Optional[str] = Field(None, description="設置主体")
     A32_003: Optional[str] = Field(None, description="学校コード")
@@ -524,7 +519,7 @@ class JuniorHighSchoolDistrictGISData(PropertyBaseModel):
     A32_005: Optional[str] = Field(None, description="所在地")
 
 
-class PreschoolGISData(PropertyBaseModel):
+class PreschoolGISData(ReinfoBaseModel):
     # "幼稚園" or "こども園"
     administrative_area_code: Optional[str] = Field(
         None, alias="administrativeAreaCode", description="行政区域コード"
@@ -561,7 +556,7 @@ class PreschoolGISData(PropertyBaseModel):
     )
 
 
-class SchoolGISData(PropertyBaseModel):
+class SchoolGISData(ReinfoBaseModel):
     P29_001: Optional[str] = Field(None, description="行政区域コード")
     P29_002: Optional[str] = Field(None, description="学校コード")
     P29_003: Optional[int] = Field(None, description="学校分類コード")
@@ -574,7 +569,7 @@ class SchoolGISData(PropertyBaseModel):
     P29_009_ja: Optional[str] = Field(None, description="学校名備考")
 
 
-class MedicalFacilityGISData(PropertyBaseModel):
+class MedicalFacilityGISData(ReinfoBaseModel):
     P04_001: Optional[int] = Field(None, description="医療機関分類")
     P04_001_name_ja: Optional[str] = Field(None, description="医療機関分類名")
     P04_002_ja: Optional[str] = Field(None, description="施設名称")
@@ -589,7 +584,7 @@ class MedicalFacilityGISData(PropertyBaseModel):
     medical_subject_ja: Optional[str] = Field(None, description="診療科目")
 
 
-class WelfareFacilityGISData(PropertyBaseModel):
+class WelfareFacilityGISData(ReinfoBaseModel):
     P14_001: Optional[str] = Field(None, description="都道府県名")
     P14_002: Optional[str] = Field(None, description="市区町村名")
     P14_003: Optional[str] = Field(None, description="行政区域コード")
@@ -604,7 +599,7 @@ class WelfareFacilityGISData(PropertyBaseModel):
     P14_010: Optional[int] = Field(None, description="位置正確度コード")
 
 
-class FuturePopulationMeshData(PropertyBaseModel):
+class FuturePopulationMeshData(ReinfoBaseModel):
     mesh_id: Optional[int] = Field(
         None, alias="MESH_ID", description="分割地域メッシュコード"
     )
@@ -650,7 +645,7 @@ class FuturePopulationMeshData(PropertyBaseModel):
     RTE_20XX: Optional[float] = Field(None, description="20XX年男女計80歳以上人口比率")
 
 
-class FirePreventionAreaGISData(PropertyBaseModel):
+class FirePreventionAreaGISData(ReinfoBaseModel):
     fire_prevention_ja: Optional[str] = Field(None, description="防火・準防火地域名")
     kubun_id: Optional[int] = Field(None, description="区分コード")
     prefecture: Optional[str] = Field(None, description="都道府県名")
@@ -666,7 +661,7 @@ class FirePreventionAreaGISData(PropertyBaseModel):
     )
 
 
-class StationPassengerData(PropertyBaseModel):
+class StationPassengerData(ReinfoBaseModel):
     S12_001_ja: Optional[str] = Field(None, description="駅名")
     S12_001c: Optional[str] = Field(None, description="駅コード")
     S12_002_ja: Optional[str] = Field(None, description="運営会社")
@@ -735,7 +730,7 @@ class StationPassengerData(PropertyBaseModel):
     S12_053: Optional[int] = Field(None, description="乗降客数2022")
 
 
-class DisasterRiskAreaGISData(PropertyBaseModel):
+class DisasterRiskAreaGISData(ReinfoBaseModel):
     A48_001: Optional[str] = Field(None, description="都道府県名")
     A48_002: Optional[str] = Field(None, description="市町村名")
     A48_003: Optional[str] = Field(None, description="代表行政コード")
@@ -753,7 +748,7 @@ class DisasterRiskAreaGISData(PropertyBaseModel):
     A48_014: Optional[str] = Field(None, description="その他")
 
 
-class LandslidePreventionGISData(PropertyBaseModel):
+class LandslidePreventionGISData(ReinfoBaseModel):
     prefecture_code: Optional[str] = Field(
         None, alias="prefecture_code", description="都道府県コード"
     )
@@ -783,7 +778,7 @@ class LandslidePreventionGISData(PropertyBaseModel):
     )
 
 
-class SteepSlopeHazardGISData(PropertyBaseModel):
+class SteepSlopeHazardGISData(ReinfoBaseModel):
     prefecture_code: Optional[str] = Field(
         None, alias="prefecture_code", description="都道府県コード"
     )
@@ -807,7 +802,7 @@ class SteepSlopeHazardGISData(PropertyBaseModel):
     )
 
 
-class DistrictPlanningGISData(PropertyBaseModel):
+class DistrictPlanningGISData(ReinfoBaseModel):
     plan_name: Optional[str] = Field(None, alias="plan_name", description="計画名")
     plan_type_ja: Optional[str] = Field(
         None, alias="plan_type_ja", description="計画区分名"
@@ -840,7 +835,7 @@ class DistrictPlanningGISData(PropertyBaseModel):
     )
 
 
-class HighUtilizationDistrictGISData(PropertyBaseModel):
+class HighUtilizationDistrictGISData(ReinfoBaseModel):
     advanced_name: Optional[str] = Field(
         None, alias="advanced_name", description="高度名称"
     )
@@ -875,7 +870,7 @@ class HighUtilizationDistrictGISData(PropertyBaseModel):
     )
 
 
-class EmbankmentGISData(PropertyBaseModel):
+class EmbankmentGISData(ReinfoBaseModel):
     embankment_classification: Optional[str] = Field(
         None, alias="embankment_classification", description="盛土区分"
     )
@@ -894,7 +889,7 @@ class EmbankmentGISData(PropertyBaseModel):
     )
 
 
-class LibraryGISData(PropertyBaseModel):
+class LibraryGISData(ReinfoBaseModel):
     P27_001: Optional[str] = Field(None, description="行政区域コード")
     P27_002: Optional[str] = Field(None, description="公共施設大分類")
     P27_003: Optional[str] = Field(None, description="公共施設小分類")
@@ -908,7 +903,7 @@ class LibraryGISData(PropertyBaseModel):
     P27_009: Optional[int] = Field(None, description="建築年")
 
 
-class TownHallGISData(PropertyBaseModel):
+class TownHallGISData(ReinfoBaseModel):
     P05_001: Optional[str] = Field(None, description="行政区域コード")
     P05_002: Optional[str] = Field(None, description="施設分類コード")
     P05_002_name_ja: Optional[str] = Field(None, description="施設分類名")
@@ -916,7 +911,7 @@ class TownHallGISData(PropertyBaseModel):
     P05_004_ja: Optional[str] = Field(None, description="所在地")
 
 
-class NaturalParkGSIData(PropertyBaseModel):
+class NaturalParkGSIData(ReinfoBaseModel):
     object_id: int = Field(..., alias="OBJECTID", description="シェープID")
     prefecture_cd: Optional[str] = Field(
         None, alias="PREFEC_CD", description="都道府県コード"
