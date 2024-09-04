@@ -1,11 +1,42 @@
-from typing import Optional, Type
+from typing import Optional, Type, TypeVar
 
 import requests
 from pydantic import TypeAdapter
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from .models import *
+from .models import (
+    AppraisalReport,
+    DataAPIResponse,
+    DisasterRiskAreaGISData,
+    DistrictPlanningGISData,
+    ElementarySchoolDistrictGIS,
+    EmbankmentGISData,
+    FirePreventionAreaGISData,
+    FuturePopulationMeshData,
+    GeoAPIResponseItem,
+    HighUtilizationDistrictGISData,
+    JuniorHighSchoolDistrictGISData,
+    LandslidePreventionGISData,
+    LandValuationGeo,
+    LibraryGISData,
+    MedicalFacilityGISData,
+    Municipality,
+    NaturalParkGSIData,
+    PreschoolGISData,
+    SchoolGISData,
+    StationPassengerData,
+    SteepSlopeHazardGISData,
+    TownHallGISData,
+    TransactionPrice,
+    TransactionPriceGeo,
+    UrbanPlanningLocationNormalizationGIS,
+    UrbanPlanningUseDistrictGIS,
+    UrbanPlanningZoneGIS,
+    WelfareFacilityGISData,
+)
+
+T = TypeVar("T")
 
 
 class Client:
@@ -21,7 +52,6 @@ class Client:
         self._http_connection_pool_size = http_connection_pool_size
         self._max_retries = max_retries
 
-    # 4
     def get_transaction_price_list(
         self,
         year: int,
@@ -34,7 +64,7 @@ class Client:
         options: Optional[dict] = None,
     ) -> list[TransactionPrice]:
         """
-        不動産価格（取引価格・成約価格）情報取得API
+        4. 不動産価格（取引価格・成約価格）情報取得API
 
         Attributes:
             price_classification (str, optional): 価格情報区分コード。形式は2桁の数字で指定します。
@@ -80,12 +110,11 @@ class Client:
             cls=TransactionPrice,
         )
 
-    # 5. 都道府県内市区町村一覧取得API
     def get_municipalitie_list(
         self, area: str, language: Optional[str] = None, options: Optional[dict] = None
     ) -> list[Municipality]:
         """
-        都道府県内市区町村一覧取得API
+        5. 都道府県内市区町村一覧取得API
 
         Attributes:
             area (str): 都道府県コード。形式は2桁の数字で指定します。
@@ -103,7 +132,6 @@ class Client:
             cls=Municipality,
         )
 
-    # 6. 鑑定評価書情報API
     def get_apraisal_report_list(
         self,
         year: int,
@@ -112,7 +140,7 @@ class Client:
         options: Optional[dict] = None,
     ) -> list[AppraisalReport]:
         """
-        鑑定評価書情報API
+        6. 鑑定評価書情報API
 
         Attributes:
             year (int): 価格時点。形式は4桁の数字で西暦を指定します。必須項目です。
@@ -141,7 +169,6 @@ class Client:
             cls=AppraisalReport,
         )
 
-    # 7. 不動産価格（取引価格・成約価格）情報のポイント (点) API
     def get_transaction_price_geo_list(
         self,
         z: int,
@@ -155,7 +182,7 @@ class Client:
         options: Optional[dict] = None,
     ) -> list[GeoAPIResponseItem[TransactionPriceGeo]]:
         """
-        不動産価格（取引価格・成約価格）情報のポイント (点) API
+        7. 不動産価格（取引価格・成約価格）情報のポイント (点) API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -203,7 +230,6 @@ class Client:
             cls=TransactionPriceGeo,
         )
 
-    # 8. 地価公示・地価調査のポイント（点）API
     def get_land_valuation_geo_list(
         self,
         z: int,
@@ -215,7 +241,7 @@ class Client:
         use_category_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[LandValuationGeo]]:
         """
-        地価公示・地価調査のポイント（点）API
+        8. 地価公示・地価調査のポイント（点）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -262,7 +288,6 @@ class Client:
             cls=LandValuationGeo,
         )
 
-    # 9
     def get_urban_planning_zone_gis_list(
         self,
         z: int,
@@ -270,7 +295,7 @@ class Client:
         y: int,
     ) -> list[GeoAPIResponseItem[UrbanPlanningZoneGIS]]:
         """
-        都市計画決定GISデータ（都市計画区域/区域区分）API
+        9. 都市計画決定GISデータ（都市計画区域/区域区分）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -295,7 +320,6 @@ class Client:
             cls=UrbanPlanningZoneGIS,
         )
 
-    # 10
     def get_urban_planning_use_district_gis_list(
         self,
         z: int,
@@ -304,7 +328,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[UrbanPlanningUseDistrictGIS]]:
         """
-        都市計画決定GISデータ（用途地域）API
+        10. 都市計画決定GISデータ（用途地域）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -329,7 +353,6 @@ class Client:
             cls=UrbanPlanningUseDistrictGIS,
         )
 
-    # 11
     def get_urban_planning_location_normalization_gis_list(
         self,
         z: int,
@@ -338,7 +361,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[UrbanPlanningLocationNormalizationGIS]]:
         """
-        都市計画決定GISデータ（立地適正化計画区域）API
+        11. 都市計画決定GISデータ（立地適正化計画区域）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -363,7 +386,6 @@ class Client:
             cls=UrbanPlanningLocationNormalizationGIS,
         )
 
-    # 12
     def get_elementary_school_district_gis_list(
         self,
         z: int,
@@ -373,7 +395,7 @@ class Client:
         administrative_area_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGIS]]:
         """
-        国土数値情報（小学校区）API
+        12. 国土数値情報（小学校区）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -404,7 +426,6 @@ class Client:
             cls=ElementarySchoolDistrictGIS,
         )
 
-    # 13
     def get_junior_high_school_district_gis_list(
         self,
         z: int,
@@ -414,7 +435,7 @@ class Client:
         administrative_area_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[JuniorHighSchoolDistrictGISData]]:
         """
-        国土数値情報（中学校区）API
+        13. 国土数値情報（中学校区）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -444,7 +465,6 @@ class Client:
             cls=JuniorHighSchoolDistrictGISData,
         )
 
-    # 14
     def get_school_gis_list(
         self,
         z: int,
@@ -453,7 +473,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[SchoolGISData]]:
         """
-        国土数値情報（学校）API
+        14. 国土数値情報（学校）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -478,7 +498,6 @@ class Client:
             cls=SchoolGISData,
         )
 
-    # 15
     def get_preschool_gis_list(
         self,
         z: int,
@@ -487,7 +506,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[PreschoolGISData]]:
         """
-        国土数値情報（保育園・幼稚園等）API
+        15. 国土数値情報（保育園・幼稚園等）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -512,7 +531,6 @@ class Client:
             cls=PreschoolGISData,
         )
 
-    # 16
     def get_medical_facility_gis_list(
         self,
         z: int,
@@ -521,7 +539,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[MedicalFacilityGISData]]:
         """
-        国土数値情報（医療機関）API
+        16. 国土数値情報（医療機関）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -546,7 +564,6 @@ class Client:
             cls=MedicalFacilityGISData,
         )
 
-    # 17
     def get_welfare_facility_gis_list(
         self,
         z: int,
@@ -559,7 +576,7 @@ class Client:
         welfare_facility_minor_class_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[WelfareFacilityGISData]]:
         """
-        国土数値情報（福祉施設）API
+        17. 国土数値情報（福祉施設）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -601,7 +618,6 @@ class Client:
             cls=WelfareFacilityGISData,
         )
 
-    # 18
     def get_future_population_mesh_list(
         self,
         z: int,
@@ -610,7 +626,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[FuturePopulationMeshData]]:
         """
-        国土数値情報（将来推計人口500mメッシュ）API
+        18. 国土数値情報（将来推計人口500mメッシュ）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -635,7 +651,6 @@ class Client:
             cls=FuturePopulationMeshData,
         )
 
-    # 19
     def get_fire_prevention_area_gis_list(
         self,
         z: int,
@@ -644,7 +659,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[FirePreventionAreaGISData]]:
         """
-        都市計画決定GISデータ（防火・準防火地域）API
+        19. 都市計画決定GISデータ（防火・準防火地域）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -669,7 +684,6 @@ class Client:
             cls=FirePreventionAreaGISData,
         )
 
-    # 20
     def get_num_of_station_passenger_list(
         self,
         z: int,
@@ -678,7 +692,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[StationPassengerData]]:
         """
-        国土数値情報（駅別乗降客数）API
+        20. 国土数値情報（駅別乗降客数）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -703,7 +717,6 @@ class Client:
             cls=StationPassengerData,
         )
 
-    # 21
     def get_disaster_risk_area_gis_list(
         self,
         z: int,
@@ -713,7 +726,7 @@ class Client:
         administrative_area_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[DisasterRiskAreaGISData]]:
         """
-        国土数値情報（災害危険区域）API
+        21. 国土数値情報（災害危険区域）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -743,7 +756,6 @@ class Client:
             cls=DisasterRiskAreaGISData,
         )
 
-    # 22
     def get_library_gis_list(
         self,
         z: int,
@@ -753,7 +765,7 @@ class Client:
         administrative_area_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[LibraryGISData]]:
         """
-        国土数値情報（図書館）API
+        22. 国土数値情報（図書館）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -783,7 +795,6 @@ class Client:
             cls=LibraryGISData,
         )
 
-    # 23
     def get_town_hall_gis_list(
         self,
         z: int,
@@ -793,7 +804,7 @@ class Client:
         administrative_area_code: Optional[str] = None,
     ) -> list[GeoAPIResponseItem[TownHallGISData]]:
         """
-        国土数値情報（市区町村村役場及び集会施設等）API
+        23. 国土数値情報（市区町村村役場及び集会施設等）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -820,7 +831,6 @@ class Client:
             cls=TownHallGISData,
         )
 
-    # 24
     def get_natural_park_gis_list(
         self,
         z: int,
@@ -831,7 +841,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[NaturalParkGSIData]]:
         """
-        国土数値情報（自然公園地域）API
+        24. 国土数値情報（自然公園地域）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -865,7 +875,6 @@ class Client:
             cls=NaturalParkGSIData,
         )
 
-    # 25
     def get_embankment_gis_list(
         self,
         z: int,
@@ -874,7 +883,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[EmbankmentGISData]]:
         """
-        国土数値情報（大規模盛土造成地マップ）API
+        25. 国土数値情報（大規模盛土造成地マップ）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -899,7 +908,6 @@ class Client:
             cls=EmbankmentGISData,
         )
 
-    # 26
     def get_landslide_prevention_district_gis_list(
         self,
         z: int,
@@ -910,7 +918,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[LandslidePreventionGISData]]:
         """
-        国土数値情報（地すべり防止地区）API
+        26. 国土数値情報（地すべり防止地区）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -944,7 +952,6 @@ class Client:
             cls=LandslidePreventionGISData,
         )
 
-    # 27
     def get_steep_slope_hazard_district_gis_list(
         self,
         z: int,
@@ -955,7 +962,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[SteepSlopeHazardGISData]]:
         """
-        国土数値情報（急傾斜地崩壊危険区域）API
+        27. 国土数値情報（急傾斜地崩壊危険区域）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -989,7 +996,6 @@ class Client:
             cls=SteepSlopeHazardGISData,
         )
 
-    # 28
     def get_district_planning_gis_list(
         self,
         z: int,
@@ -998,7 +1004,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[DistrictPlanningGISData]]:
         """
-        都市計画決定GISデータ（地区計画）API
+        28. 都市計画決定GISデータ（地区計画）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -1023,7 +1029,6 @@ class Client:
             cls=DistrictPlanningGISData,
         )
 
-    # 29
     def get_high_utilization_district_gis_list(
         self,
         z: int,
@@ -1032,7 +1037,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[HighUtilizationDistrictGISData]]:
         """
-        都市計画決定GISデータ（高度利用地区）API
+        29. 都市計画決定GISデータ（高度利用地区）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。

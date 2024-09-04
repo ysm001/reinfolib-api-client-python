@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Generic, Literal, Optional, TypedDict, TypeVar, Union
+from typing import Generic, Literal, Optional, TypeVar, Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
