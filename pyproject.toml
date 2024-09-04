@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "reinfolib-api-client"
 version = "0.1.0"
-description = ""
+description = "A reinfolib(不動産情報ライブラリ) API client for Python"
 authors = ["ysm001 <ry.ysd01@gmail.com>"]
 packages = [{ include = "reinfolib" }]
 readme = "README.md"
