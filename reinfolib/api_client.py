@@ -5,6 +5,8 @@ from pydantic import TypeAdapter
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from reinfolib.api_http_client import ApiHttpClient
+
 from .models import (
     AppraisalReport,
     DataAPIResponse,
@@ -43,14 +45,18 @@ class Client:
     _base_url = "https://www.reinfolib.mlit.go.jp"
     _http_connection_pool_size = 10
     _max_retries = 3
+    _http_client: ApiHttpClient
 
-    def __init__(
-        self, api_key: str, http_connection_pool_size: int = 10, max_retries: int = 3
-    ):
-        self.api_key = api_key
-        self._session = None
-        self._http_connection_pool_size = http_connection_pool_size
-        self._max_retries = max_retries
+    @classmethod
+    def create(cls, api_key: str):
+        return Client(
+            ApiHttpClient(
+                api_key=api_key,
+            )
+        )
+
+    def __init__(self, http_client: ApiHttpClient):
+        self._http_client = http_client
 
     def get_transaction_price_list(
         self,
@@ -96,7 +102,7 @@ class Client:
         """
 
         return self._get_data(
-            url=self._make_url("/ex-api/external/XIT001"),
+            request_path="/ex-api/external/XIT001",
             params={
                 "year": year,
                 "area": area,
@@ -126,7 +132,7 @@ class Client:
                 - 未指定: デフォルトで日本語が使用されます。
         """
         return self._get_data(
-            url=self._make_url("/ex-api/external/XIT002"),
+            request_path="/ex-api/external/XIT002",
             params={"area": area, "language": language},
             options=options,
             cls=Municipality,
@@ -159,7 +165,7 @@ class Client:
                 - '20': 林地（都道府県地価調査）
         """
         return self._get_data(
-            url=self._make_url("/ex-api/external/XCT001"),
+            request_path="/ex-api/external/XCT001",
             params={
                 "year": year,
                 "area": area,
@@ -215,7 +221,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XPT001"),
+            request_path="/ex-api/external/XPT001",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -275,7 +281,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XPT002"),
+            request_path="/ex-api/external/XPT002",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -310,7 +316,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT001"),
+            request_path="/ex-api/external/XKT001",
             params={
                 "response_format": "geojson",
                 "z": z,
@@ -343,7 +349,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT002"),
+            request_path="/ex-api/external/XKT002",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -376,7 +382,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT003"),
+            request_path="/ex-api/external/XKT003",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -421,7 +427,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT004"),
+            request_path="/ex-api/external/XKT004",
             params=params,
             cls=ElementarySchoolDistrictGIS,
         )
@@ -460,7 +466,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT005"),
+            request_path="/ex-api/external/XKT005",
             params=params,
             cls=JuniorHighSchoolDistrictGISData,
         )
@@ -488,7 +494,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT006"),
+            request_path="/ex-api/external/XKT006",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -521,7 +527,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT007"),
+            request_path="/ex-api/external/XKT007",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -554,7 +560,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT010"),
+            request_path="/ex-api/external/XKT010",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -613,7 +619,7 @@ class Client:
             "welfareFacilityMinorClassCode": welfare_facility_minor_class_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT011"),
+            request_path="/ex-api/external/XKT011",
             params=params,
             cls=WelfareFacilityGISData,
         )
@@ -641,7 +647,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT013"),
+            request_path="/ex-api/external/XKT013",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -674,7 +680,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT014"),
+            request_path="/ex-api/external/XKT014",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -707,7 +713,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT015"),
+            request_path="/ex-api/external/XKT015",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -751,7 +757,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT016"),
+            request_path="/ex-api/external/XKT016",
             params=params,
             cls=DisasterRiskAreaGISData,
         )
@@ -790,7 +796,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT017"),
+            request_path="/ex-api/external/XKT017",
             params=params,
             cls=LibraryGISData,
         )
@@ -826,7 +832,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT018"),
+            request_path="/ex-api/external/XKT018",
             params=params,
             cls=TownHallGISData,
         )
@@ -870,7 +876,7 @@ class Client:
             "districtCode": district_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT019"),
+            request_path="/ex-api/external/XKT019",
             params=params,
             cls=NaturalParkGSIData,
         )
@@ -898,7 +904,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT020"),
+            request_path="/ex-api/external/XKT020",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -947,7 +953,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT021"),
+            request_path="/ex-api/external/XKT021",
             params=params,
             cls=LandslidePreventionGISData,
         )
@@ -991,7 +997,7 @@ class Client:
             "administrativeAreaCode": administrative_area_code,
         }
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT022"),
+            request_path="/ex-api/external/XKT022",
             params=params,
             cls=SteepSlopeHazardGISData,
         )
@@ -1019,7 +1025,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT023"),
+            request_path="/ex-api/external/XKT023",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -1052,7 +1058,7 @@ class Client:
         """
 
         return self._get_geo_data(
-            url=self._make_url("/ex-api/external/XKT024"),
+            request_path="/ex-api/external/XKT024",
             params={
                 "response_format": response_format,
                 "z": z,
@@ -1062,70 +1068,26 @@ class Client:
             cls=HighUtilizationDistrictGISData,
         )
 
-    def _make_url(self, request_path: str) -> str:
-        return f"{self._base_url}/{request_path}"
-
-    def _request_session(
-        self,
-        status_forcelist: Optional[list[int]] = None,
-        allowed_methods: Optional[list[str]] = None,
-    ) -> requests.Session:
-        if status_forcelist is None:
-            status_forcelist = [429, 500, 502, 503, 504]
-        if allowed_methods is None:
-            allowed_methods = ["HEAD", "GET", "OPTIONS", "POST"]
-
-        if self._session is None:
-            retry_strategy = Retry(
-                total=self._max_retries,
-                status_forcelist=status_forcelist,
-                allowed_methods=allowed_methods,
-            )
-
-            adapter = HTTPAdapter(
-                pool_connections=self._http_connection_pool_size,
-                pool_maxsize=self._http_connection_pool_size,
-                max_retries=retry_strategy,
-            )
-            self._session = requests.Session()
-            self._session.mount("https://", adapter)
-
-        return self._session
-
-    def _with_auth_headers(self, headers: dict) -> dict:
-        return {**(headers), "Ocp-Apim-Subscription-Key": self.api_key}
-
-    def _get(
-        self, url: str, params: Optional[dict] = None, options: Optional[dict] = None
-    ) -> dict:
-        session = self._request_session()
-        headers = (options or {}).get("headers", {})
-        headers_with_auth = self._with_auth_headers(headers)
-        response = session.get(
-            url, params=params, headers=headers_with_auth, timeout=30
-        )
-
-        response.raise_for_status()
-        return response.json()
-
     def _get_data(
         self,
-        url: str,
+        request_path: str,
         cls: Type[T],
         params: Optional[dict] = None,
         options: Optional[dict] = None,
     ) -> list[T]:
-        resp = DataAPIResponse[T](**self._get(url, params, options))
+        resp = DataAPIResponse[T](
+            **self._http_client.get_json(request_path, params, options)
+        )
         return [cls(**d) for d in resp.data]
 
     def _get_geo_data(
         self,
-        url: str,
+        request_path: str,
         cls: Type[T],
         params: Optional[dict] = None,
         options: Optional[dict] = None,
     ) -> list[GeoAPIResponseItem[T]]:
-        raw_resp = self._get(url, params, options)
+        raw_resp = self._http_client.get_json(request_path, params, options)
         return TypeAdapter(list[GeoAPIResponseItem[T]]).validate_python(
             [{**f, "properties": cls(**f["properties"])} for f in raw_resp["features"]]
         )

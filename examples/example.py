@@ -13,7 +13,7 @@ api_key = os.getenv("REINFOLIB_API_KEY")
 if api_key is None:
     raise ValueError("API key is not set")
 
-client = Client(api_key=api_key)
+client = Client.create(api_key=api_key)
 
 # 不動産価格（取引価格・成約価格）情報取得API
 resp = client.get_transaction_price_list(year=2015, area="13")
