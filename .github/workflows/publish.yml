@@ -52,6 +52,8 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
+      - name: Install Poetry
+        run: python3 -m pip install poetry
       - name: Download all the dists
         uses: actions/download-artifact@v3
         with:
