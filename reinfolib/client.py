@@ -110,7 +110,7 @@ class Client:
         area: str,
         division: str,
         options: Optional[dict] = None,
-    ) -> list[PropertyAppraisalReport]:
+    ) -> list[AppraisalReport]:
         """
         鑑定評価書情報API
 
@@ -138,7 +138,7 @@ class Client:
                 "division": division,
             },
             options=options,
-            cls=PropertyAppraisalReport,
+            cls=AppraisalReport,
         )
 
     # 7. 不動産価格（取引価格・成約価格）情報のポイント (点) API
@@ -153,7 +153,7 @@ class Client:
         price_classification: Optional[str] = None,
         land_type_code: Optional[str] = None,
         options: Optional[dict] = None,
-    ) -> list[GeoAPIResponseItem[PropertyTransactionGeo]]:
+    ) -> list[GeoAPIResponseItem[TransactionPriceGeo]]:
         """
         不動産価格（取引価格・成約価格）情報のポイント (点) API
 
@@ -200,7 +200,7 @@ class Client:
                 "landTypeCode": land_type_code,
             },
             options=options,
-            cls=PropertyTransactionGeo,
+            cls=TransactionPriceGeo,
         )
 
     # 8. 地価公示・地価調査のポイント（点）API
@@ -213,7 +213,7 @@ class Client:
         response_format: str = "geojson",
         price_classification: Optional[str] = None,
         use_category_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[LandValuation]]:
+    ) -> list[GeoAPIResponseItem[LandValuationGeo]]:
         """
         地価公示・地価調査のポイント（点）API
 
@@ -259,7 +259,7 @@ class Client:
                 "priceClassification": price_classification,
                 "useCategoryCode": use_category_code,
             },
-            cls=LandValuation,
+            cls=LandValuationGeo,
         )
 
     # 9
@@ -268,7 +268,7 @@ class Client:
         z: int,
         x: int,
         y: int,
-    ) -> list[GeoAPIResponseItem[UrbanPlanningData]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningZoneGIS]]:
         """
         都市計画決定GISデータ（都市計画区域/区域区分）API
 
@@ -292,7 +292,7 @@ class Client:
                 "x": x,
                 "y": y,
             },
-            cls=UrbanPlanningData,
+            cls=UrbanPlanningZoneGIS,
         )
 
     # 10
@@ -302,7 +302,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[UrbanPlanningYouto]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningUseDistrictGIS]]:
         """
         都市計画決定GISデータ（用途地域）API
 
@@ -326,7 +326,7 @@ class Client:
                 "x": x,
                 "y": y,
             },
-            cls=UrbanPlanningYouto,
+            cls=UrbanPlanningUseDistrictGIS,
         )
 
     # 11
@@ -336,7 +336,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[UrbanPlanningOptimizationAreaGISData]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningLocationNormalizationGIS]]:
         """
         都市計画決定GISデータ（立地適正化計画区域）API
 
@@ -360,7 +360,7 @@ class Client:
                 "x": x,
                 "y": y,
             },
-            cls=UrbanPlanningOptimizationAreaGISData,
+            cls=UrbanPlanningLocationNormalizationGIS,
         )
 
     # 12
@@ -371,7 +371,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGISData]]:
+    ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGIS]]:
         """
         国土数値情報（小学校区）API
 
@@ -401,7 +401,7 @@ class Client:
         return self._get_geo_data(
             url=self._make_url("/ex-api/external/XKT004"),
             params=params,
-            cls=ElementarySchoolDistrictGISData,
+            cls=ElementarySchoolDistrictGIS,
         )
 
     # 13
@@ -829,7 +829,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         district_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[ParkGSIData]]:
+    ) -> list[GeoAPIResponseItem[NaturalParkGSIData]]:
         """
         国土数値情報（自然公園地域）API
 
@@ -862,7 +862,7 @@ class Client:
         return self._get_geo_data(
             url=self._make_url("/ex-api/external/XKT019"),
             params=params,
-            cls=ParkGSIData,
+            cls=NaturalParkGSIData,
         )
 
     # 25
