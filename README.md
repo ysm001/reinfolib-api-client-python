@@ -2,7 +2,9 @@
 
 # 不動産情報ライブラリ API Client
 
-[不動産情報ライブラリ](https://www.reinfolib.mlit.go.jp/help/apiManual/) の Python クライアントライブラリ
+[不動産情報ライブラリ](https://www.reinfolib.mlit.go.jp/help/apiManual/) の Python クライアントライブラリです。
+
+API Key の入手方法等は[公式のドキュメント](https://www.reinfolib.mlit.go.jp/help/apiManual/#titleApi2) を参照してください。
 
 ## Installation
 
