@@ -116,7 +116,7 @@ class Client:
             cls=TransactionPrice,
         )
 
-    def get_municipalitie_list(
+    def get_city_list(
         self, area: str, language: Optional[str] = None, options: Optional[dict] = None
     ) -> list[Municipality]:
         """

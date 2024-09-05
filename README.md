@@ -21,6 +21,12 @@ api_key = ...
 
 client = Client.create(api_key=api_key)
 
+# 不動産価格（取引価格・成約価格）情報取得API
+client.get_transaction_price_list(year=2015, area="13")
+
+# 市区町村一覧 API
+resp = client.get_city_list(area="13")
+
 # 地価公示・地価調査のポイント（点）API
 client.get_land_valuation_geo_list(z=13, x=7312, y=3008, year=2020)
 

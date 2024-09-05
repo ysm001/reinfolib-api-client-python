@@ -20,7 +20,7 @@ resp = client.get_transaction_price_list(year=2015, area="13")
 print(resp[0:5])
 
 # 都道府県内市区町村一覧取得API
-resp = client.get_municipalitie_list(area="13")
+resp = client.get_city_list(area="13")
 print(resp[0:5])
 
 # 鑑定評価書情報API
@@ -35,6 +35,10 @@ resp = client.get_transaction_price_geo_list(
     from_yyyyn="20223",
     to_yyyyn="20234",
 )
+print(resp[0:5])
+
+# 市区町村一覧 API
+resp = client.get_city_list(area="13")
 print(resp[0:5])
 
 # 地価公示・地価調査のポイント（点）API
