@@ -1,4 +1,4 @@
-from typing import Optional, TypeVar
+from typing import Optional
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -60,6 +60,24 @@ class ApiHttpClient:
         params: Optional[dict] = None,
         options: Optional[dict] = None,
     ) -> dict:
+        response = self._get_response(request_path, params=params, options=options)
+        return response.json()
+
+    def get_content(
+        self,
+        request_path: str,
+        params: Optional[dict] = None,
+        options: Optional[dict] = None,
+    ) -> bytes:
+        response = self._get_response(request_path, params=params, options=options)
+        return response.content
+
+    def _get_response(
+        self,
+        request_path: str,
+        params: Optional[dict] = None,
+        options: Optional[dict] = None,
+    ) -> requests.Response:
         url = self._make_url(request_path)
         session = self._request_session()
         headers = (options or {}).get("headers", {})
@@ -68,4 +86,4 @@ class ApiHttpClient:
             url, params=params, headers=headers_with_auth, timeout=30
         )
         response.raise_for_status()
-        return response.json()
+        return response

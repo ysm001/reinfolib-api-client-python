@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "name": "tsunami_area",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              136.87946735272084,
+              35.04798673426733
+            ],
+            [
+              136.87946710648905,
+              35.04805707966883
+            ],
+            [
+              136.8795767805325,
+              35.04805733924404
+            ],
+            [
+              136.8795770275785,
+              35.04798673426733
+            ],
+            [
+              136.87946735272084,
+              35.04798673426733
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "A40_001": "愛知県",
+        "A40_002": "23",
+        "A40_003": "0.3m以上 ～ 1.0m未満",
+        "target_year": 2022,
+        "_id": "aMu5pJoBxLgMoUYl7DKQ",
+        "_index": "bs032_tsunami_area_202511211236"
+      }
+    }
+  ]
+}

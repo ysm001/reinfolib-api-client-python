@@ -1,7 +1,6 @@
-from dataclasses import dataclass
 from typing import Generic, Literal, Optional, TypeVar, Union
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 T = TypeVar("T")
 
@@ -68,15 +67,14 @@ class GeoAPIResponse(BaseModel, Generic[T]):
 
 
 class ReinfoBaseModel(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, extra="allow")
+
     @field_validator("*", mode="before")
     @classmethod
     def empty_str_to_none(cls, v):
         if isinstance(v, str) and v.strip() == "":
             return None
         return v
-
-    class Config:
-        populate_by_name = True
 
 
 class TransactionPrice(ReinfoBaseModel):
@@ -93,6 +91,9 @@ class TransactionPrice(ReinfoBaseModel):
     )
     district_name: Optional[str] = Field(
         None, alias="DistrictName", description="地区名"
+    )
+    district_code: Optional[str] = Field(
+        None, alias="DistrictCode", description="地区コード"
     )
     trade_price: Optional[int] = Field(
         None, alias="TradePrice", description="取引価格（総額）"
@@ -330,6 +331,7 @@ class Municipality(ReinfoBaseModel):
 
 class TransactionPriceGeo(ReinfoBaseModel):
     point_in_time_name_ja: Optional[str] = Field(None, description="取引時点")
+    land_type_name_ja: Optional[str] = Field(None, description="土地の種類")
     price_information_category_name_ja: Optional[str] = Field(
         None, description="価格情報区分"
     )
@@ -338,9 +340,7 @@ class TransactionPriceGeo(ReinfoBaseModel):
     city_name_ja: Optional[str] = Field(None, description="市区町村名")
     district_code: Optional[str] = Field(None, description="地区コード")
     district_name_ja: Optional[str] = Field(None, description="地区名")
-    transaction_contents_name_ja: Optional[str] = Field(
-        None, description="取引の事情等"
-    )
+    use_category_name_ja: Optional[str] = Field(None, description="種類区分")
     u_transaction_price_total_ja: Optional[str] = Field(
         None, description="取引価格（総額）"
     )
@@ -351,6 +351,7 @@ class TransactionPriceGeo(ReinfoBaseModel):
     u_area_ja: Optional[str] = Field(None, description="面積")
     land_shape_name_ja: Optional[str] = Field(None, description="土地の形状")
     u_land_frontage_ja: Optional[str] = Field(None, description="間口")
+    building_use_name_ja: Optional[str] = Field(None, description="建物用途")
     building_structure_name_ja: Optional[str] = Field(None, description="建物の構造")
     floor_plan_name_ja: Optional[str] = Field(None, description="間取り")
     u_building_total_floor_area_ja: Optional[str] = Field(
@@ -365,6 +366,7 @@ class TransactionPriceGeo(ReinfoBaseModel):
     land_use_name_ja: Optional[str] = Field(None, description="用途地域")
     u_building_coverage_ratio_ja: Optional[str] = Field(None, description="建蔽率")
     u_floor_area_ratio_ja: Optional[str] = Field(None, description="容積率")
+    remark_name_ja: Optional[str] = Field(None, description="取引の事情等")
     future_use_purpose_name_ja: Optional[str] = Field(
         None, description="今後の利用目的"
     )
@@ -405,11 +407,11 @@ class LandValuationGeo(ReinfoBaseModel):
     )
     side_road_azimuth_name_ja: Optional[str] = Field(None, description="側道の方位区分")
     side_road_name_ja: Optional[str] = Field(None, description="側道区分")
-    gas_supply_availability: Optional[str] = Field(None, description="ガスの有無")
-    water_supply_availability: Optional[str] = Field(None, description="水道の有無")
-    sewer_supply_availability: Optional[str] = Field(None, description="下水道の有無")
+    gas_supply_availability: Optional[bool] = Field(None, description="ガスの有無")
+    water_supply_availability: Optional[bool] = Field(None, description="水道の有無")
+    sewer_supply_availability: Optional[bool] = Field(None, description="下水道の有無")
     nearest_station_name_ja: Optional[str] = Field(None, description="最寄り駅名")
-    proximity_to_transportation_facilities: Optional[str] = Field(
+    proximity_to_transportation_facilitites: Optional[int | str] = Field(
         None, description="交通施設との近接区分"
     )
     u_road_distance_to_nearest_station_name_ja: Optional[str] = Field(
@@ -664,6 +666,7 @@ class FirePreventionAreaGISData(ReinfoBaseModel):
 class StationPassengerData(ReinfoBaseModel):
     S12_001_ja: Optional[str] = Field(None, description="駅名")
     S12_001c: Optional[str] = Field(None, description="駅コード")
+    S12_001g: Optional[str] = Field(None, description="グループコード")
     S12_002_ja: Optional[str] = Field(None, description="運営会社")
     S12_003_ja: Optional[str] = Field(None, description="路線名")
     S12_004: Optional[str] = Field(None, description="鉄道区分")
@@ -728,6 +731,10 @@ class StationPassengerData(ReinfoBaseModel):
     S12_051: Optional[int] = Field(None, description="データ有無コード2022")
     S12_052: Optional[str] = Field(None, description="備考2022")
     S12_053: Optional[int] = Field(None, description="乗降客数2022")
+    S12_054: Optional[str] = Field(None, description="重複コード2023")
+    S12_055: Optional[str] = Field(None, description="データ有無コード2023")
+    S12_056: Optional[str] = Field(None, description="備考2023")
+    S12_057: Optional[int] = Field(None, description="乗降客数2023")
 
 
 class DisasterRiskAreaGISData(ReinfoBaseModel):
@@ -935,3 +942,113 @@ class NaturalParkGSIData(ReinfoBaseModel):
     obj_name_ja: Optional[str] = Field(
         None, alias="OBJ_NAME_ja", description="シェープ名"
     )
+
+
+class LiquefactionTendencyGISData(ReinfoBaseModel):
+    mesh_code: Optional[str] = Field(None, description="メッシュコード")
+    topographic_classification_code: Optional[int] = Field(
+        None, description="微地形区分コード"
+    )
+    topographic_classification_name_ja: Optional[str] = Field(
+        None, description="微地形区分名称"
+    )
+    liquefaction_tendency_level: Optional[int] = Field(
+        None, description="液状化発生傾向レベル"
+    )
+    note: Optional[str] = Field(None, description="説明")
+
+
+class FloodInundationAssumptionAreaGISData(ReinfoBaseModel):
+    A31a_201: Optional[str] = Field(None, description="河川番号")
+    A31a_202: Optional[str] = Field(None, description="河川名")
+    A31a_203: Optional[str] = Field(None, description="河川管理番号")
+    A31a_204: Optional[str] = Field(None, description="河川管理者")
+    A31a_205: Optional[int] = Field(None, description="浸水深ランク")
+
+
+class StormSurgeInundationAssumptionAreaGISData(ReinfoBaseModel):
+    A49_001: Optional[str] = Field(None, description="都道府県名")
+    A49_002: Optional[str] = Field(None, description="都道府県コード")
+    A49_003: Optional[str] = Field(None, description="浸水深区分")
+    target_year: Optional[int] = Field(None, description="対象年")
+
+
+class TsunamiInundationAssumptionGISData(ReinfoBaseModel):
+    A40_001: Optional[str] = Field(None, description="都道府県名")
+    A40_002: Optional[str] = Field(None, description="都道府県コード")
+    A40_003: Optional[str] = Field(None, description="津波浸水深区分")
+    target_year: Optional[int] = Field(None, description="対象年")
+
+
+class SedimentDisasterWarningAreaGISData(ReinfoBaseModel):
+    A33_001: Optional[int] = Field(None, description="現象の種類")
+    A33_002: Optional[int] = Field(None, description="区域区分")
+    A33_003: Optional[str] = Field(None, description="都道府県コード")
+    A33_004: Optional[str] = Field(None, description="区域番号")
+    A33_005: Optional[str] = Field(None, description="区域名")
+    A33_006: Optional[str] = Field(None, description="所在地")
+    A33_007: Optional[str] = Field(None, description="公示日")
+    A33_008: Optional[int] = Field(None, description="特別警戒未指定フラグ")
+
+
+class UrbanPlanningRoadGISData(ReinfoBaseModel):
+    planning_road_ja: Optional[str] = Field(None, description="都市計画道路種類名")
+    kubun_id: Optional[int] = Field(None, description="区分コード")
+    prefecture: Optional[str] = Field(None, description="都道府県名")
+    city_code: Optional[str] = Field(None, description="市区町村コード")
+    city_name: Optional[str] = Field(None, description="市区町村名")
+    first_decision_date: Optional[str] = Field(None, description="当初決定日")
+    decision_date: Optional[str] = Field(None, description="設定年月日")
+    decision_type_ja: Optional[str] = Field(None, description="設定区分名")
+    decision_maker: Optional[str] = Field(None, description="設定者名")
+    notice_number_s: Optional[str] = Field(None, description="告示番号S")
+    notice_number: Optional[str] = Field(None, description="告示番号")
+
+
+class DenselyInhabitedDistrictGISData(ReinfoBaseModel):
+    A16_001: Optional[str] = Field(None, description="DIDid")
+    A16_002: Optional[str] = Field(None, description="行政区域コード")
+    A16_003: Optional[str] = Field(None, description="市区町村名称")
+    A16_004: Optional[int] = Field(None, description="人口集中地区符合")
+    A16_005: Optional[int] = Field(None, description="人口")
+    A16_006: Optional[float] = Field(None, description="面積")
+    A16_007: Optional[int] = Field(None, description="前回人口")
+    A16_008: Optional[float] = Field(None, description="前回面積")
+    A16_009: Optional[int] = Field(None, description="人口割合")
+    A16_010: Optional[int] = Field(None, description="面積割合")
+    A16_011: Optional[int] = Field(None, description="国勢調査年度")
+    A16_012: Optional[int] = Field(None, description="人口（男）")
+    A16_013: Optional[int] = Field(None, description="人口（女）")
+    A16_014: Optional[int] = Field(None, description="世帯数")
+
+
+class EmergencyEvacuationSiteGISData(ReinfoBaseModel):
+    common_id: Optional[str] = Field(None, description="共通ID")
+    prefecture_and_city: Optional[str] = Field(
+        None, description="都道府県名及び市町村名"
+    )
+    facility_name_ja: Optional[str] = Field(None, description="施設・場所名")
+    address_ja: Optional[str] = Field(None, description="住所")
+    flood_flag: Optional[bool] = Field(None, description="洪水")
+    landslide_flag: Optional[bool] = Field(
+        None, description="崖崩れ、土石流及び地滑り"
+    )
+    high_tide_flag: Optional[bool] = Field(None, description="高潮")
+    earthquake_flag: Optional[bool] = Field(None, description="地震")
+    tsunami_flag: Optional[bool] = Field(None, description="津波")
+    large_fire_flag: Optional[bool] = Field(None, description="大規模な火事")
+    inland_flooding_flag: Optional[bool] = Field(None, description="内水氾濫")
+    volcanic_phenomenon_flag: Optional[bool] = Field(None, description="火山現象")
+    same_address_flag: Optional[bool] = Field(
+        None, description="指定避難所との住所同一"
+    )
+    remarks: Optional[str] = Field(None, description="備考")
+
+
+class DisasterHistoryGeoData(ReinfoBaseModel):
+    disastertype_code: Optional[str] = Field(None, description="災害分類コード")
+    disaster_name_ja: Optional[str] = Field(
+        None, description="分類の呼称（災害種別等）"
+    )
+    disaster_date: Optional[str] = Field(None, description="西暦年月日")
+    disaster_source: Optional[str] = Field(None, description="資料名")

@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "name": "evacuation_facilities",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.5834982395172,
+          35.693996675594434
+        ]
+      },
+      "properties": {
+        "_id": "ozkS9ZwBHMJXDabwrRMh",
+        "_index": "bi001_evacuation_facilities_202603161415",
+        "volcanic_phenomenon_flag": false,
+        "tsunami_flag": false,
+        "earthquake_flag": false,
+        "large_fire_flag": false,
+        "landslide_flag": true,
+        "flood_flag": true,
+        "same_address_flag": true,
+        "address_ja": "東京都三鷹市井の頭2-32-30",
+        "prefecture_and_city": "東京都三鷹市",
+        "inland_flooding_flag": true,
+        "high_tide_flag": false,
+        "facility_name_ja": "井の頭コミュニティ・センター",
+        "remarks": "",
+        "common_id": "E1320400002201"
+      }
+    }
+  ]
+}

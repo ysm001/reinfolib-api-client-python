@@ -57,7 +57,7 @@ client.get_medical_facility_gis_list(z=13, x=7272, y=3225)
 # 国土数値情報（福祉施設）API
 client.get_welfare_facility_gis_list(z=13, x=7272, y=3225)
 
-# 国土数値情報（将来推計人口500mメッシュ）API
+# 国土数値情報（将来推計人口250mメッシュ）API
 client.get_future_population_mesh_list(z=11, x=1819, y=806)
 
 # 都市計画決定GISデータ（防火・準防火地域）API
@@ -84,9 +84,6 @@ client.get_embankment_gis_list(z=12, x=3657, y=1504)
 # 国土数値情報（地すべり防止地区）API
 client.get_landslide_prevention_district_gis_list(z=11, x=1815, y=805)
 
-# 国土数値情報（地すべり防止地区）API
-client.get_landslide_prevention_district_gis_list(z=11, x=1815, y=805)
-
 # 国土数値情報（急傾斜地崩壊危険区域）API
 client.get_steep_slope_hazard_district_gis_list(z=11, x=1815, y=805)
 
@@ -95,4 +92,35 @@ client.get_district_planning_gis_list(z=12, x=3657, y=1504)
 
 # 都市計画決定GISデータ（高度利用地区）API
 client.get_high_utilization_district_gis_list(z=12, x=3637, y=1612)
+
+# 国土交通省都市局（地形区分に基づく液状化の発生傾向図）API
+client.get_liquefaction_tendency_gis_list(z=12, x=3657, y=1504)
+
+# 国土数値情報（洪水浸水想定区域（想定最大規模））API
+client.get_flood_inundation_assumption_area_gis_list(z=14, x=14550, y=6451)
+
+# 国土数値情報（高潮浸水想定区域）API
+client.get_storm_surge_inundation_assumption_area_gis_list(z=13, x=7210, y=3243)
+
+# 国土数値情報（津波浸水想定）API
+client.get_tsunami_inundation_assumption_gis_list(z=14, x=14421, y=6486)
+
+# 国土数値情報（土砂災害警戒区域）API
+client.get_sediment_disaster_warning_area_gis_list(z=11, x=1819, y=806)
+
+# 都市計画決定GISデータ（都市計画道路）API
+client.get_urban_planning_road_gis_list(z=11, x=1819, y=806)
+
+# 国土数値情報（人口集中地区）API
+client.get_densely_inhabited_district_gis_list(
+    z=11, x=1819, y=806, administrative_area_code="13101"
+)
+
+# 国土地理院GISデータ（指定緊急避難場所）API
+client.get_emergency_evacuation_site_gis_list(z=13, x=7272, y=3225)
+
+# 国土調査（災害履歴）API
+client.get_disaster_history_geo_list(
+    z=11, x=1819, y=806, disastertype_code="11"
+)
 ```

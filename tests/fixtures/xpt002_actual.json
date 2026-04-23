@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "name": "land_prices",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.3394010066986,
+          43.04181013536842
+        ]
+      },
+      "properties": {
+        "_id": "tIQWQ50BHMJXDabwxDAu",
+        "_index": "bi007_land_prices_2015-2025_202603311748",
+        "location_number_ja": "南１３条西１３丁目９４０番１２",
+        "area_division_name_ja": "市街化区域",
+        "sewer_supply_availability": true,
+        "city_code": "01101",
+        "residence_display_name_ja": "南１３条西１３－２－１０",
+        "side_road_name_ja": "",
+        "u_road_distance_to_nearest_station_name_ja": "2,100m",
+        "building_structure_name_ja": "W（木造）",
+        "proximity_to_transportation_facilitites": 0,
+        "regulations_use_category_name_ja": "第一種住居地域",
+        "side_road_azimuth_name_ja": "",
+        "current_usage_status_of_surrounding_land_name_ja": "一般住宅、アパート等が建ち並ぶ既成住宅地域",
+        "front_road_name_ja": "市道",
+        "u_ground_hierarchy_ja": "2F",
+        "use_category_name_ja": "住宅地",
+        "gas_supply_availability": true,
+        "nearest_station_name_ja": "西１１丁目",
+        "front_road_width": 54,
+        "u_underground_hierarchy_ja": "B1",
+        "year_on_year_change_rate": "7.7",
+        "u_regulations_building_coverage_ratio_ja": "60(%)",
+        "water_supply_availability": true,
+        "u_cadastral_ja": "162(㎡)",
+        "point_id": 3000002,
+        "front_road_pavement_condition": "1",
+        "usage_category_name_ja": "建物などの敷地",
+        "prefecture_code": "01",
+        "regulations_forest_law_name_ja": "",
+        "regulations_park_law_name_ja": "",
+        "city_county_name_ja": "札幌市",
+        "front_road_azimuth_name_ja": "南",
+        "target_year_name_ja": "令和6年1月1日",
+        "u_regulations_floor_area_ratio_ja": "200(%)",
+        "prefecture_name_ja": "北海道",
+        "regulations_fireproof_name_ja": "",
+        "depth_ratio": 15,
+        "u_current_years_price_ja": "210,000(円/㎡)",
+        "ward_town_village_name_ja": "中央区",
+        "frontage_ratio": 10,
+        "place_name_ja": "札幌中央",
+        "land_price_type": 0,
+        "usage_status_name_ja": "住宅",
+        "regulations_altitude_district_name_ja": "",
+        "pause_flag": 0,
+        "standard_lot_number_ja": "札幌中央-2",
+        "last_years_price": 195000,
+        "location": "北海道札幌市中央区南１３条西１３丁目９４０番１２",
+        "shape": "(1.0：1.5)",
+        "front_road_condition": "南　5.4m　市道",
+        "side_road_condition": "",
+        "park_forest_law": ""
+      }
+    }
+  ]
+}

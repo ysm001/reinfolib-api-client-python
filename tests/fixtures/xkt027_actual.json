@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "name": "storm_surge_area",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              136.8804070668869,
+              35.02999636902566
+            ],
+            [
+              136.880406949821,
+              35.03002999209065
+            ],
+            [
+              136.88051654210494,
+              35.030030250196035
+            ],
+            [
+              136.88051666040866,
+              35.02999636902566
+            ],
+            [
+              136.8804070668869,
+              35.02999636902566
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "A49_001": "愛知県",
+        "A49_002": "23",
+        "A49_003": "0.5m以上1m未満",
+        "target_year": 2022,
+        "_id": "l6drpJoBxLgMoUYlAHF0",
+        "_index": "bs033_storm_surge_area_202511211157"
+      }
+    }
+  ]
+}

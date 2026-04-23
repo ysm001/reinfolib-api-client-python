@@ -1,19 +1,20 @@
 from typing import Optional, Type, TypeVar
 
-import requests
 from pydantic import TypeAdapter
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
 from reinfolib.api_http_client import ApiHttpClient
 
 from .models import (
     AppraisalReport,
     DataAPIResponse,
+    DenselyInhabitedDistrictGISData,
+    DisasterHistoryGeoData,
     DisasterRiskAreaGISData,
     DistrictPlanningGISData,
     ElementarySchoolDistrictGIS,
+    EmergencyEvacuationSiteGISData,
     EmbankmentGISData,
+    FloodInundationAssumptionAreaGISData,
     FirePreventionAreaGISData,
     FuturePopulationMeshData,
     GeoAPIResponseItem,
@@ -22,17 +23,22 @@ from .models import (
     LandslidePreventionGISData,
     LandValuationGeo,
     LibraryGISData,
+    LiquefactionTendencyGISData,
     MedicalFacilityGISData,
     Municipality,
     NaturalParkGSIData,
     PreschoolGISData,
     SchoolGISData,
+    SedimentDisasterWarningAreaGISData,
     StationPassengerData,
+    StormSurgeInundationAssumptionAreaGISData,
     SteepSlopeHazardGISData,
     TownHallGISData,
     TransactionPrice,
     TransactionPriceGeo,
+    TsunamiInundationAssumptionGISData,
     UrbanPlanningLocationNormalizationGIS,
+    UrbanPlanningRoadGISData,
     UrbanPlanningUseDistrictGIS,
     UrbanPlanningZoneGIS,
     WelfareFacilityGISData,
@@ -299,7 +305,8 @@ class Client:
         z: int,
         x: int,
         y: int,
-    ) -> list[GeoAPIResponseItem[UrbanPlanningZoneGIS]]:
+        response_format: str = "geojson",
+    ) -> list[GeoAPIResponseItem[UrbanPlanningZoneGIS]] | bytes:
         """
         9. 都市計画決定GISデータ（都市計画区域/区域区分）API
 
@@ -318,7 +325,7 @@ class Client:
         return self._get_geo_data(
             request_path="/ex-api/external/XKT001",
             params={
-                "response_format": "geojson",
+                "response_format": response_format,
                 "z": z,
                 "x": x,
                 "y": y,
@@ -632,7 +639,7 @@ class Client:
         response_format: str = "geojson",
     ) -> list[GeoAPIResponseItem[FuturePopulationMeshData]]:
         """
-        18. 国土数値情報（将来推計人口500mメッシュ）API
+        18. 国土数値情報（将来推計人口250mメッシュ）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -1068,6 +1075,155 @@ class Client:
             cls=HighUtilizationDistrictGISData,
         )
 
+    def get_liquefaction_tendency_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[LiquefactionTendencyGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT025",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=LiquefactionTendencyGISData,
+        )
+
+    def get_flood_inundation_assumption_area_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[FloodInundationAssumptionAreaGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT026",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=FloodInundationAssumptionAreaGISData,
+        )
+
+    def get_storm_surge_inundation_assumption_area_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[StormSurgeInundationAssumptionAreaGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT027",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=StormSurgeInundationAssumptionAreaGISData,
+        )
+
+    def get_tsunami_inundation_assumption_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[TsunamiInundationAssumptionGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT028",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=TsunamiInundationAssumptionGISData,
+        )
+
+    def get_sediment_disaster_warning_area_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[SedimentDisasterWarningAreaGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT029",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=SedimentDisasterWarningAreaGISData,
+        )
+
+    def get_urban_planning_road_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[UrbanPlanningRoadGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT030",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=UrbanPlanningRoadGISData,
+        )
+
+    def get_densely_inhabited_district_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        administrative_area_code: Optional[str] = None,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[DenselyInhabitedDistrictGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT031",
+            params={
+                "response_format": response_format,
+                "z": z,
+                "x": x,
+                "y": y,
+                "administrativeAreaCode": administrative_area_code,
+            },
+            options=options,
+            cls=DenselyInhabitedDistrictGISData,
+        )
+
+    def get_emergency_evacuation_site_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[EmergencyEvacuationSiteGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XGT001",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=EmergencyEvacuationSiteGISData,
+        )
+
+    def get_disaster_history_geo_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        disastertype_code: Optional[str] = None,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[DisasterHistoryGeoData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XST001",
+            params={
+                "response_format": response_format,
+                "z": z,
+                "x": x,
+                "y": y,
+                "disastertype_code": disastertype_code,
+            },
+            options=options,
+            cls=DisasterHistoryGeoData,
+        )
+
     def _get_data(
         self,
         request_path: str,
@@ -1086,7 +1242,10 @@ class Client:
         cls: Type[T],
         params: Optional[dict] = None,
         options: Optional[dict] = None,
-    ) -> list[GeoAPIResponseItem[T]]:
+    ) -> list[GeoAPIResponseItem[T]] | bytes:
+        if (params or {}).get("response_format") == "pbf":
+            return self._http_client.get_content(request_path, params, options)
+
         raw_resp = self._http_client.get_json(request_path, params, options)
         return TypeAdapter(list[GeoAPIResponseItem[T]]).validate_python(
             [{**f, "properties": cls(**f["properties"])} for f in raw_resp["features"]]

@@ -1,0 +1,36 @@
+{
+  "status": "OK",
+  "data": [
+    {
+      "PriceCategory": "不動産取引価格情報",
+      "Type": "宅地(土地と建物)",
+      "Region": "商業地",
+      "MunicipalityCode": "13101",
+      "Prefecture": "東京都",
+      "Municipality": "千代田区",
+      "DistrictName": "岩本町",
+      "TradePrice": "320000000",
+      "PricePerUnit": "",
+      "FloorPlan": "",
+      "Area": "105",
+      "UnitPrice": "",
+      "LandShape": "ほぼ台形",
+      "Frontage": "7.9",
+      "TotalFloorArea": "460",
+      "BuildingYear": "1992年",
+      "Structure": "ＲＣ",
+      "Use": "事務所",
+      "Purpose": "事務所",
+      "Direction": "東",
+      "Classification": "区道",
+      "Breadth": "8",
+      "CityPlanning": "商業地域",
+      "CoverageRatio": "80",
+      "FloorAreaRatio": "600",
+      "Period": "2023年第1四半期",
+      "Renovation": "",
+      "Remarks": "",
+      "DistrictCode": "131010030"
+    }
+  ]
+}
