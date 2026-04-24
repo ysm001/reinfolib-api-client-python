@@ -411,8 +411,10 @@ class LandValuationGeo(ReinfoBaseModel):
     water_supply_availability: Optional[bool] = Field(None, description="水道の有無")
     sewer_supply_availability: Optional[bool] = Field(None, description="下水道の有無")
     nearest_station_name_ja: Optional[str] = Field(None, description="最寄り駅名")
-    proximity_to_transportation_facilitites: Optional[int | str] = Field(
-        None, description="交通施設との近接区分"
+    proximity_to_transportation_facilities: Optional[int | str] = Field(
+        None,
+        alias="proximity_to_transportation_facilitites",
+        description="交通施設との近接区分",
     )
     u_road_distance_to_nearest_station_name_ja: Optional[str] = Field(
         None, description="最寄り駅までの道路距離"
@@ -731,8 +733,8 @@ class StationPassengerData(ReinfoBaseModel):
     S12_051: Optional[int] = Field(None, description="データ有無コード2022")
     S12_052: Optional[str] = Field(None, description="備考2022")
     S12_053: Optional[int] = Field(None, description="乗降客数2022")
-    S12_054: Optional[str] = Field(None, description="重複コード2023")
-    S12_055: Optional[str] = Field(None, description="データ有無コード2023")
+    S12_054: Optional[int] = Field(None, description="重複コード2023")
+    S12_055: Optional[int] = Field(None, description="データ有無コード2023")
     S12_056: Optional[str] = Field(None, description="備考2023")
     S12_057: Optional[int] = Field(None, description="乗降客数2023")
 

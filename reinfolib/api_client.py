@@ -192,7 +192,7 @@ class Client:
         price_classification: Optional[str] = None,
         land_type_code: Optional[str] = None,
         options: Optional[dict] = None,
-    ) -> list[GeoAPIResponseItem[TransactionPriceGeo]]:
+    ) -> list[GeoAPIResponseItem[TransactionPriceGeo]] | bytes:
         """
         7. 不動産価格（取引価格・成約価格）情報のポイント (点) API
 
@@ -251,7 +251,7 @@ class Client:
         response_format: str = "geojson",
         price_classification: Optional[str] = None,
         use_category_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[LandValuationGeo]]:
+    ) -> list[GeoAPIResponseItem[LandValuationGeo]] | bytes:
         """
         8. 地価公示・地価調査のポイント（点）API
 
@@ -339,7 +339,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[UrbanPlanningUseDistrictGIS]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningUseDistrictGIS]] | bytes:
         """
         10. 都市計画決定GISデータ（用途地域）API
 
@@ -372,7 +372,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[UrbanPlanningLocationNormalizationGIS]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningLocationNormalizationGIS]] | bytes:
         """
         11. 都市計画決定GISデータ（立地適正化計画区域）API
 
@@ -406,7 +406,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGIS]]:
+    ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGIS]] | bytes:
         """
         12. 国土数値情報（小学校区）API
 
@@ -446,7 +446,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[JuniorHighSchoolDistrictGISData]]:
+    ) -> list[GeoAPIResponseItem[JuniorHighSchoolDistrictGISData]] | bytes:
         """
         13. 国土数値情報（中学校区）API
 
@@ -484,7 +484,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[SchoolGISData]]:
+    ) -> list[GeoAPIResponseItem[SchoolGISData]] | bytes:
         """
         14. 国土数値情報（学校）API
 
@@ -517,7 +517,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[PreschoolGISData]]:
+    ) -> list[GeoAPIResponseItem[PreschoolGISData]] | bytes:
         """
         15. 国土数値情報（保育園・幼稚園等）API
 
@@ -550,7 +550,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[MedicalFacilityGISData]]:
+    ) -> list[GeoAPIResponseItem[MedicalFacilityGISData]] | bytes:
         """
         16. 国土数値情報（医療機関）API
 
@@ -587,7 +587,7 @@ class Client:
         welfare_facility_class_code: Optional[str] = None,
         welfare_facility_middle_class_code: Optional[str] = None,
         welfare_facility_minor_class_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[WelfareFacilityGISData]]:
+    ) -> list[GeoAPIResponseItem[WelfareFacilityGISData]] | bytes:
         """
         17. 国土数値情報（福祉施設）API
 
@@ -637,7 +637,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[FuturePopulationMeshData]]:
+    ) -> list[GeoAPIResponseItem[FuturePopulationMeshData]] | bytes:
         """
         18. 国土数値情報（将来推計人口250mメッシュ）API
 
@@ -670,7 +670,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[FirePreventionAreaGISData]]:
+    ) -> list[GeoAPIResponseItem[FirePreventionAreaGISData]] | bytes:
         """
         19. 都市計画決定GISデータ（防火・準防火地域）API
 
@@ -703,7 +703,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[StationPassengerData]]:
+    ) -> list[GeoAPIResponseItem[StationPassengerData]] | bytes:
         """
         20. 国土数値情報（駅別乗降客数）API
 
@@ -737,7 +737,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[DisasterRiskAreaGISData]]:
+    ) -> list[GeoAPIResponseItem[DisasterRiskAreaGISData]] | bytes:
         """
         21. 国土数値情報（災害危険区域）API
 
@@ -776,7 +776,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[LibraryGISData]]:
+    ) -> list[GeoAPIResponseItem[LibraryGISData]] | bytes:
         """
         22. 国土数値情報（図書館）API
 
@@ -815,7 +815,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[TownHallGISData]]:
+    ) -> list[GeoAPIResponseItem[TownHallGISData]] | bytes:
         """
         23. 国土数値情報（市区町村村役場及び集会施設等）API
 
@@ -852,7 +852,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         district_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[NaturalParkGSIData]]:
+    ) -> list[GeoAPIResponseItem[NaturalParkGSIData]] | bytes:
         """
         24. 国土数値情報（自然公園地域）API
 
@@ -894,7 +894,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[EmbankmentGISData]]:
+    ) -> list[GeoAPIResponseItem[EmbankmentGISData]] | bytes:
         """
         25. 国土数値情報（大規模盛土造成地マップ）API
 
@@ -929,7 +929,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         administrative_area_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[LandslidePreventionGISData]]:
+    ) -> list[GeoAPIResponseItem[LandslidePreventionGISData]] | bytes:
         """
         26. 国土数値情報（地すべり防止地区）API
 
@@ -973,7 +973,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         administrative_area_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[SteepSlopeHazardGISData]]:
+    ) -> list[GeoAPIResponseItem[SteepSlopeHazardGISData]] | bytes:
         """
         27. 国土数値情報（急傾斜地崩壊危険区域）API
 
@@ -1015,7 +1015,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[DistrictPlanningGISData]]:
+    ) -> list[GeoAPIResponseItem[DistrictPlanningGISData]] | bytes:
         """
         28. 都市計画決定GISデータ（地区計画）API
 
@@ -1048,7 +1048,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[HighUtilizationDistrictGISData]]:
+    ) -> list[GeoAPIResponseItem[HighUtilizationDistrictGISData]] | bytes:
         """
         29. 都市計画決定GISデータ（高度利用地区）API
 

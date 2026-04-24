@@ -37,6 +37,36 @@ def test_get_urban_planning_zone_gis_list_supports_actual_pbf(api_client: Client
     assert result == payload
 
 
+def test_get_transaction_price_geo_list_supports_pbf(api_client: Client) -> None:
+    payload = b"pbf-content"
+    api_client._http_client.get_content = MagicMock(return_value=payload)
+
+    result = api_client.get_transaction_price_geo_list(
+        z=13,
+        x=7312,
+        y=3008,
+        from_yyyyn="20223",
+        to_yyyyn="20234",
+        response_format="pbf",
+    )
+
+    api_client._http_client.get_content.assert_called_once_with(
+        "/ex-api/external/XPT001",
+        {
+            "response_format": "pbf",
+            "z": 13,
+            "x": 7312,
+            "y": 3008,
+            "from": "20223",
+            "to": "20234",
+            "priceClassification": None,
+            "landTypeCode": None,
+        },
+        None,
+    )
+    assert result == payload
+
+
 @pytest.mark.parametrize(
     (
         "method_name",
@@ -202,7 +232,9 @@ def test_get_land_valuation_geo_list_parses_actual_response_key(api_client: Clie
 
     result = api_client.get_land_valuation_geo_list(z=13, x=7312, y=3008, year=2024)
 
-    assert result[0].properties.proximity_to_transportation_facilitites == 0
+    props = result[0].properties
+    assert props.proximity_to_transportation_facilities == 0
+    assert not hasattr(props, "proximity_to_transportation_facilitites")
 
 
 def test_get_future_population_mesh_list_keeps_actual_year_specific_fields(api_client: Client) -> None:
@@ -221,5 +253,6 @@ def test_get_num_of_station_passenger_list_parses_actual_2023_fields(api_client:
 
     props = result[0].properties
     assert props.S12_001g == "003505"
-    assert props.S12_054 == "2"
+    assert props.S12_054 == 2
+    assert props.S12_055 == 1
     assert props.S12_057 == 0
