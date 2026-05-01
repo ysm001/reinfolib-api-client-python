@@ -1,19 +1,20 @@
 from typing import Optional, Type, TypeVar
 
-import requests
 from pydantic import TypeAdapter
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
 from reinfolib.api_http_client import ApiHttpClient
 
 from .models import (
     AppraisalReport,
     DataAPIResponse,
+    DenselyInhabitedDistrictGISData,
+    DisasterHistoryGeoData,
     DisasterRiskAreaGISData,
     DistrictPlanningGISData,
     ElementarySchoolDistrictGIS,
+    EmergencyEvacuationSiteGISData,
     EmbankmentGISData,
+    FloodInundationAssumptionAreaGISData,
     FirePreventionAreaGISData,
     FuturePopulationMeshData,
     GeoAPIResponseItem,
@@ -22,17 +23,22 @@ from .models import (
     LandslidePreventionGISData,
     LandValuationGeo,
     LibraryGISData,
+    LiquefactionTendencyGISData,
     MedicalFacilityGISData,
     Municipality,
     NaturalParkGSIData,
     PreschoolGISData,
     SchoolGISData,
+    SedimentDisasterWarningAreaGISData,
     StationPassengerData,
+    StormSurgeInundationAssumptionAreaGISData,
     SteepSlopeHazardGISData,
     TownHallGISData,
     TransactionPrice,
     TransactionPriceGeo,
+    TsunamiInundationAssumptionGISData,
     UrbanPlanningLocationNormalizationGIS,
+    UrbanPlanningRoadGISData,
     UrbanPlanningUseDistrictGIS,
     UrbanPlanningZoneGIS,
     WelfareFacilityGISData,
@@ -186,7 +192,7 @@ class Client:
         price_classification: Optional[str] = None,
         land_type_code: Optional[str] = None,
         options: Optional[dict] = None,
-    ) -> list[GeoAPIResponseItem[TransactionPriceGeo]]:
+    ) -> list[GeoAPIResponseItem[TransactionPriceGeo]] | bytes:
         """
         7. 不動産価格（取引価格・成約価格）情報のポイント (点) API
 
@@ -245,7 +251,7 @@ class Client:
         response_format: str = "geojson",
         price_classification: Optional[str] = None,
         use_category_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[LandValuationGeo]]:
+    ) -> list[GeoAPIResponseItem[LandValuationGeo]] | bytes:
         """
         8. 地価公示・地価調査のポイント（点）API
 
@@ -299,7 +305,8 @@ class Client:
         z: int,
         x: int,
         y: int,
-    ) -> list[GeoAPIResponseItem[UrbanPlanningZoneGIS]]:
+        response_format: str = "geojson",
+    ) -> list[GeoAPIResponseItem[UrbanPlanningZoneGIS]] | bytes:
         """
         9. 都市計画決定GISデータ（都市計画区域/区域区分）API
 
@@ -318,7 +325,7 @@ class Client:
         return self._get_geo_data(
             request_path="/ex-api/external/XKT001",
             params={
-                "response_format": "geojson",
+                "response_format": response_format,
                 "z": z,
                 "x": x,
                 "y": y,
@@ -332,7 +339,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[UrbanPlanningUseDistrictGIS]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningUseDistrictGIS]] | bytes:
         """
         10. 都市計画決定GISデータ（用途地域）API
 
@@ -365,7 +372,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[UrbanPlanningLocationNormalizationGIS]]:
+    ) -> list[GeoAPIResponseItem[UrbanPlanningLocationNormalizationGIS]] | bytes:
         """
         11. 都市計画決定GISデータ（立地適正化計画区域）API
 
@@ -399,7 +406,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGIS]]:
+    ) -> list[GeoAPIResponseItem[ElementarySchoolDistrictGIS]] | bytes:
         """
         12. 国土数値情報（小学校区）API
 
@@ -439,7 +446,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[JuniorHighSchoolDistrictGISData]]:
+    ) -> list[GeoAPIResponseItem[JuniorHighSchoolDistrictGISData]] | bytes:
         """
         13. 国土数値情報（中学校区）API
 
@@ -477,7 +484,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[SchoolGISData]]:
+    ) -> list[GeoAPIResponseItem[SchoolGISData]] | bytes:
         """
         14. 国土数値情報（学校）API
 
@@ -510,7 +517,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[PreschoolGISData]]:
+    ) -> list[GeoAPIResponseItem[PreschoolGISData]] | bytes:
         """
         15. 国土数値情報（保育園・幼稚園等）API
 
@@ -543,7 +550,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[MedicalFacilityGISData]]:
+    ) -> list[GeoAPIResponseItem[MedicalFacilityGISData]] | bytes:
         """
         16. 国土数値情報（医療機関）API
 
@@ -580,7 +587,7 @@ class Client:
         welfare_facility_class_code: Optional[str] = None,
         welfare_facility_middle_class_code: Optional[str] = None,
         welfare_facility_minor_class_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[WelfareFacilityGISData]]:
+    ) -> list[GeoAPIResponseItem[WelfareFacilityGISData]] | bytes:
         """
         17. 国土数値情報（福祉施設）API
 
@@ -630,9 +637,9 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[FuturePopulationMeshData]]:
+    ) -> list[GeoAPIResponseItem[FuturePopulationMeshData]] | bytes:
         """
-        18. 国土数値情報（将来推計人口500mメッシュ）API
+        18. 国土数値情報（将来推計人口250mメッシュ）API
 
         Attributes:
             response_format (str): 応答形式。GeoJSON応答またはバイナリベクトルタイル応答を指定します。必須項目です。
@@ -663,7 +670,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[FirePreventionAreaGISData]]:
+    ) -> list[GeoAPIResponseItem[FirePreventionAreaGISData]] | bytes:
         """
         19. 都市計画決定GISデータ（防火・準防火地域）API
 
@@ -696,7 +703,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[StationPassengerData]]:
+    ) -> list[GeoAPIResponseItem[StationPassengerData]] | bytes:
         """
         20. 国土数値情報（駅別乗降客数）API
 
@@ -730,7 +737,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[DisasterRiskAreaGISData]]:
+    ) -> list[GeoAPIResponseItem[DisasterRiskAreaGISData]] | bytes:
         """
         21. 国土数値情報（災害危険区域）API
 
@@ -769,7 +776,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[LibraryGISData]]:
+    ) -> list[GeoAPIResponseItem[LibraryGISData]] | bytes:
         """
         22. 国土数値情報（図書館）API
 
@@ -808,7 +815,7 @@ class Client:
         y: int,
         response_format: str = "geojson",
         administrative_area_code: Optional[str] = None,
-    ) -> list[GeoAPIResponseItem[TownHallGISData]]:
+    ) -> list[GeoAPIResponseItem[TownHallGISData]] | bytes:
         """
         23. 国土数値情報（市区町村村役場及び集会施設等）API
 
@@ -845,7 +852,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         district_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[NaturalParkGSIData]]:
+    ) -> list[GeoAPIResponseItem[NaturalParkGSIData]] | bytes:
         """
         24. 国土数値情報（自然公園地域）API
 
@@ -887,7 +894,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[EmbankmentGISData]]:
+    ) -> list[GeoAPIResponseItem[EmbankmentGISData]] | bytes:
         """
         25. 国土数値情報（大規模盛土造成地マップ）API
 
@@ -922,7 +929,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         administrative_area_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[LandslidePreventionGISData]]:
+    ) -> list[GeoAPIResponseItem[LandslidePreventionGISData]] | bytes:
         """
         26. 国土数値情報（地すべり防止地区）API
 
@@ -966,7 +973,7 @@ class Client:
         prefecture_code: Optional[str] = None,
         administrative_area_code: Optional[str] = None,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[SteepSlopeHazardGISData]]:
+    ) -> list[GeoAPIResponseItem[SteepSlopeHazardGISData]] | bytes:
         """
         27. 国土数値情報（急傾斜地崩壊危険区域）API
 
@@ -1008,7 +1015,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[DistrictPlanningGISData]]:
+    ) -> list[GeoAPIResponseItem[DistrictPlanningGISData]] | bytes:
         """
         28. 都市計画決定GISデータ（地区計画）API
 
@@ -1041,7 +1048,7 @@ class Client:
         x: int,
         y: int,
         response_format: str = "geojson",
-    ) -> list[GeoAPIResponseItem[HighUtilizationDistrictGISData]]:
+    ) -> list[GeoAPIResponseItem[HighUtilizationDistrictGISData]] | bytes:
         """
         29. 都市計画決定GISデータ（高度利用地区）API
 
@@ -1068,6 +1075,155 @@ class Client:
             cls=HighUtilizationDistrictGISData,
         )
 
+    def get_liquefaction_tendency_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[LiquefactionTendencyGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT025",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=LiquefactionTendencyGISData,
+        )
+
+    def get_flood_inundation_assumption_area_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[FloodInundationAssumptionAreaGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT026",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=FloodInundationAssumptionAreaGISData,
+        )
+
+    def get_storm_surge_inundation_assumption_area_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[StormSurgeInundationAssumptionAreaGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT027",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=StormSurgeInundationAssumptionAreaGISData,
+        )
+
+    def get_tsunami_inundation_assumption_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[TsunamiInundationAssumptionGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT028",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=TsunamiInundationAssumptionGISData,
+        )
+
+    def get_sediment_disaster_warning_area_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[SedimentDisasterWarningAreaGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT029",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=SedimentDisasterWarningAreaGISData,
+        )
+
+    def get_urban_planning_road_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[UrbanPlanningRoadGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT030",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=UrbanPlanningRoadGISData,
+        )
+
+    def get_densely_inhabited_district_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        administrative_area_code: Optional[str] = None,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[DenselyInhabitedDistrictGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XKT031",
+            params={
+                "response_format": response_format,
+                "z": z,
+                "x": x,
+                "y": y,
+                "administrativeAreaCode": administrative_area_code,
+            },
+            options=options,
+            cls=DenselyInhabitedDistrictGISData,
+        )
+
+    def get_emergency_evacuation_site_gis_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[EmergencyEvacuationSiteGISData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XGT001",
+            params={"response_format": response_format, "z": z, "x": x, "y": y},
+            options=options,
+            cls=EmergencyEvacuationSiteGISData,
+        )
+
+    def get_disaster_history_geo_list(
+        self,
+        z: int,
+        x: int,
+        y: int,
+        disastertype_code: Optional[str] = None,
+        response_format: str = "geojson",
+        options: Optional[dict] = None,
+    ) -> list[GeoAPIResponseItem[DisasterHistoryGeoData]] | bytes:
+        return self._get_geo_data(
+            request_path="/ex-api/external/XST001",
+            params={
+                "response_format": response_format,
+                "z": z,
+                "x": x,
+                "y": y,
+                "disastertype_code": disastertype_code,
+            },
+            options=options,
+            cls=DisasterHistoryGeoData,
+        )
+
     def _get_data(
         self,
         request_path: str,
@@ -1086,7 +1242,10 @@ class Client:
         cls: Type[T],
         params: Optional[dict] = None,
         options: Optional[dict] = None,
-    ) -> list[GeoAPIResponseItem[T]]:
+    ) -> list[GeoAPIResponseItem[T]] | bytes:
+        if (params or {}).get("response_format") == "pbf":
+            return self._http_client.get_content(request_path, params, options)
+
         raw_resp = self._http_client.get_json(request_path, params, options)
         return TypeAdapter(list[GeoAPIResponseItem[T]]).validate_python(
             [{**f, "properties": cls(**f["properties"])} for f in raw_resp["features"]]

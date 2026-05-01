@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "name": [
+    "station",
+    "real_estate_price"
+  ],
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.3508915901184,
+          43.06866831619226
+        ]
+      },
+      "properties": {
+        "point_in_time_name_ja": "2023年第3四半期",
+        "land_type_name_ja": "中古マンション等",
+        "price_information_category_name_ja": "不動産取引価格情報",
+        "prefecture_name_ja": "北海道",
+        "city_code": "01102",
+        "city_name_ja": "札幌市北区",
+        "district_code": "011020070",
+        "district_name_ja": "北６条西",
+        "use_category_name_ja": "",
+        "u_transaction_price_total_ja": "1,200万円",
+        "u_transaction_price_unit_price_square_meter_ja": "",
+        "u_unit_price_per_tsubo_ja": "",
+        "u_area_ja": "45㎡",
+        "land_shape_name_ja": "",
+        "u_land_frontage_ja": "",
+        "building_use_name_ja": "住宅",
+        "building_structure_name_ja": "ＳＲＣ",
+        "floor_plan_name_ja": "２ＬＤＫ",
+        "u_building_total_floor_area_ja": "",
+        "u_construction_year_ja": "1984年",
+        "front_road_azimuth_name_ja": "",
+        "u_front_road_width_ja": "",
+        "front_road_type_name_ja": "",
+        "land_use_name_ja": "商業地域",
+        "u_building_coverage_ratio_ja": "80%",
+        "u_floor_area_ratio_ja": "600%",
+        "remark_name_ja": "",
+        "future_use_purpose_name_ja": "住宅",
+        "remark_renovation_name_ja": "未改装"
+      }
+    }
+  ]
+}

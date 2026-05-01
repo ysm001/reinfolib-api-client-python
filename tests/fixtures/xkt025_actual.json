@@ -1,0 +1,51 @@
+{
+  "type": "FeatureCollection",
+  "name": "liquefaction_tendency_map",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              141.4812469482422,
+              43.06457684860277
+            ],
+            [
+              141.4812469482422,
+              43.066661806823674
+            ],
+            [
+              141.48437976837158,
+              43.066661806823674
+            ],
+            [
+              141.48437976837158,
+              43.06457684860277
+            ],
+            [
+              141.4812469482422,
+              43.06457684860277
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "_id": "DYUfuJIBHEII8kGRBfs3",
+        "_index": "bs028_liquefaction_tendency_map_202410231536",
+        "topographic_classification_name_ja": "ローム台地",
+        "mesh_code": "6441437843",
+        "note": "液状化しにくい",
+        "topographic_classification_code": 9,
+        "liquefaction_tendency_level": 5
+      }
+    }
+  ]
+}
